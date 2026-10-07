@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>我的 Agent</title>
+</head>
+<body>
+  <h2>我的 Agent</h2>
+
+  <textarea id="q" rows="3" cols="50" placeholder="说点什么……"></textarea>
+  <br>
+  <button id="send">发送</button>
+
+  <p id="status"></p>
+  <pre id="answer"></pre>
+
+  <script>
+    const btn = document.getElementById("send");
+    const qBox = document.getElementById("q");
+    const statusBox = document.getElementById("status");
+    const answerBox = document.getElementById("answer");
+
+    btn.onclick = async () => {
+      const text = qBox.value.trim();
+      if (!text) return;
+
+      statusBox.textContent = "思考中……（第一次可能十几秒）";
+      answerBox.textContent = "";
+
+      try {
+        const res = await fetch("http://127.0.0.1:8003/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: text }),
+        });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+
+        const data = await res.json();
+        statusBox.textContent = "";
+        answerBox.textContent = data.reply;
+      } catch (err) {
+        statusBox.textContent = "出错了：" + err.message + "（按 F12 看 Console）";
+      }
+    };
+  </script>
+</body>
+</html>

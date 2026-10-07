@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">      <!-- ★ 就是这一行 -->
+</head>
+<body>
+  <p id="status">加载中……</p>
+  <ul id="list"></ul>
+  <script>
+    fetch("http://127.0.0.1:8000/todos")
+      .then(res => {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.json();
+      })
+      .then(items => {
+        document.getElementById("status").textContent = `共 ${items.length} 条`;
+        document.getElementById("list").innerHTML =
+          items.map(t => `<li>${t.title} ${t.done ? "✅" : "⬜"}</li>`).join("");
+      })
+      .catch(err => {
+        // ★ 把失败原因显示在页面上，而不是只留在控制台
+        document.getElementById("status").textContent =
+          "出错了：" + err.message + "　（按 F12 看 Console）";
+      });
+  </script>
+</body>
+</html>

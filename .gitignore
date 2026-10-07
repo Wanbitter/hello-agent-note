@@ -1,0 +1,31 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# 虚拟环境 1475MB
+.venv/
+venv/
+
+# 密钥（8个真 key，绝不能推）
+.env
+.env.*
+
+# 大文件
+*.pdf
+*.zip
+
+# 模型权重 1182MB
+models--*/
+**/models--*/
+.cache/
+huggingface/
+
+# IDE
+.idea/
+.vscode/
+
+# 系统
+Thumbs.db
+desktop.ini
+_book_extract/
